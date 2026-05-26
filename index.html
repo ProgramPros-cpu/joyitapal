@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyita Pal | Artist Portfolio</title>
+    
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #F8F9F5; /* Warmer, softer cream */
+            --text-main: #2C352B; 
+            --text-muted: #6A7368; 
+            --frame-mat: #FFFFFF;
+            --frame-outer: #4A3525; 
+            --accent-leaf: #7A9075; /* Soft sage green */
+            --accent-gold: #C5A880; /* Soft gold */
+            --accent-rose: #D4A383; /* Elegant dusty rose/blush */
+        }
+
+        html {
+            font-size: 16px; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            position: relative;
+            background-image: radial-gradient(rgba(122, 144, 117, 0.08) 1px, transparent 1px);
+            background-size: 30px 30px; 
+        }
+
+        /* Ambient Background Floral Branches */
+        .bg-floral {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.15; /* Soft transparency for background layering */
+            pointer-events: none;
+            width: 400px;
+            height: 400px;
+        }
+        .bg-floral-1 { top: -80px; left: -80px; transform: rotate(10deg); }
+        .bg-floral-2 { bottom: -80px; right: -80px; transform: rotate(190deg); }
+
+        /* Typography */
+        h1, h2, h3, .serif {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            padding: 9rem 2rem 5rem;
+            position: relative;
+            margin-bottom: 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(248,249,245,1) 0%, rgba(248,249,245,0) 100%);
+        }
+
+        /* Profile Image & Rose Wreath Styling */
+        .profile-container {
+            position: relative;
+            width: 13rem;
+            height: 13rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInDown 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .profile-img {
+            width: 8.8rem;
+            height: 8.8rem;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--bg-color);
+            box-shadow: 0 8px 25px rgba(44, 53, 43, 0.12);
+            z-index: 2;
+            background-color: var(--frame-mat);
+            transition: transform 0.4s ease;
+        }
+
+        .profile-container:hover .profile-img {
+            transform: scale(1.03);
+        }
+
+        .floral-wreath {
+            position: absolute;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: clamp(2.8rem, 8vw, 4.5rem);
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            color: var(--text-main);
+            animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        header p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+            letter-spacing: 0.5px;
+            animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s both;
+        }
+
+        /* Story Layout */
+        main {
+            max-width: 75rem; 
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        .story-row {
+            display: flex;
+            align-items: center;
+            gap: 8rem;
+            margin-bottom: 12rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Staggered animation delays */
+        .story-row:nth-child(1) { animation-delay: 0.3s; }
+        .story-row:nth-child(2) { animation-delay: 0.5s; }
+        .story-row:nth-child(3) { animation-delay: 0.5s; }
+        .story-row:nth-child(4) { animation-delay: 0.5s; }
+
+        .story-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .story-art {
+            flex: 1.2;
+            width: 100%;
+        }
+
+        .story-text {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        /* Art Details Styling */
+        .art-title {
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            color: var(--text-main);
+            margin-bottom: 0.8rem;
+            line-height: 1.1;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+        }
+
+        .art-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.75rem;
+            color: var(--accent-leaf);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .art-meta span.dot {
+            height: 4px;
+            width: 4px;
+            background-color: var(--accent-gold);
+            border-radius: 50%;
+        }
+
+        .floral-divider {
+            width: 110px;
+            height: 35px;
+            margin: 2rem 0;
+            opacity: 0.9;
+        }
+
+        .art-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-align: justify;
+            line-height: 2;
+        }
+
+        /* Responsive Layout for Mobile - Keeps side-by-side! */
+        @media (max-width: 950px) {
+            main {
+                padding: 0 1rem 4rem;
+            }
+            .story-row, .story-row:nth-child(even) {
+                gap: 2rem;
+                margin-bottom: 6rem;
+            }
+            .story-art {
+                flex: 1;
+            }
+            .story-text {
+                flex: 1.2;
+                padding: 0;
+            }
+            .art-title {
+                font-size: 1.5rem;
+            }
+            .art-meta {
+                font-size: 0.6rem;
+                letter-spacing: 2px;
+                gap: 8px;
+                margin-bottom: 1rem;
+            }
+            .floral-divider {
+                width: 90px;
+                height: 28px;
+                margin: 1.5rem 0;
+            }
+            .art-description {
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+            header {
+                padding: 5rem 1rem 3rem;
+                margin-bottom: 3rem;
+            }
+            .frame-container {
+                padding: 4%;
+                padding-bottom: 7%;
+                border-width: 0.6rem;
+            }
+        }
+
+        /* Extra adjustments for very small phone screens */
+        @media (max-width: 600px) {
+            .story-row, .story-row:nth-child(even) {
+                gap: 1rem;
+                margin-bottom: 4rem;
+                align-items: flex-start;
+            }
+            .art-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.3rem;
+            }
+            .art-meta {
+                font-size: 0.5rem;
+                letter-spacing: 1px;
+                gap: 4px;
+                margin-bottom: 0.5rem;
+            }
+            .floral-divider {
+                width: 75px;
+                height: 24px;
+                margin: 1rem 0;
+            }
+            .art-description {
+                font-size: 0.75rem;
+                line-height: 1.5;
+            }
+            .story-text {
+                flex: 1.3;
+            }
+        }
+
+        /* Premium Frame Effect */
+        .frame-container {
+            background: var(--frame-mat);
+            padding: 6%; 
+            padding-bottom: 10%; 
+            border: 1.125rem solid var(--frame-outer); 
+            border-radius: 0.1875rem;
+            box-shadow: 
+                0 1.25rem 3.125rem rgba(44, 53, 43, 0.12),
+                0 0.625rem 1.25rem rgba(44, 53, 43, 0.08),
+                inset 0 0 0 0.0625rem rgba(0,0,0,0.1); 
+            position: relative;
+            cursor: zoom-in;
+            transition: box-shadow 0.6s ease;
+        }
+
+        .frame-container::before {
+            content: '';
+            position: absolute;
+            top: 6%; left: 6%; right: 6%; bottom: 10%;
+            box-shadow: inset 0 0.375rem 1.25rem rgba(0,0,0,0.3), inset 0 0 0 0.0625rem rgba(0,0,0,0.15);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .frame-container:hover {
+            box-shadow: 
+                0 1.875rem 3.75rem rgba(44, 53, 43, 0.18),
+                0 0.9375rem 1.875rem rgba(44, 53, 43, 0.12),
+                inset 0 0 0 0.0625rem rgba(0,0,0,0.1); 
+        }
+
+        /* Frame Floral Corner Decor */
+        .frame-decor {
+            position: absolute;
+            width: 6.5rem;
+            height: 6.5rem;
+            z-index: 15;
+            pointer-events: none;
+            filter: drop-shadow(0 0.25rem 0.5rem rgba(44, 53, 43, 0.25));
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .frame-decor-tl {
+            top: -2rem;
+            left: -2rem;
+        }
+
+        .frame-decor-br {
+            bottom: -2rem;
+            right: -2rem;
+            transform: rotate(180deg);
+        }
+
+        /* Subtle bloom effect on hover */
+        .frame-container:hover .frame-decor-tl {
+            transform: scale(1.08) translate(-0.1rem, -0.1rem);
+        }
+        
+        .frame-container:hover .frame-decor-br {
+            transform: rotate(180deg) scale(1.08) translate(-0.1rem, -0.1rem);
+        }
+
+        .frame-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: contrast(1.03) saturate(1.05); 
+            transition: filter 0.6s ease;
+        }
+        
+        .frame-container:hover img {
+            filter: contrast(1.08) saturate(1.12);
+        }
+
+        /* Lightbox (Full Screen View) */
+        #lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(20, 24, 19, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        #lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 80vh;
+            box-shadow: 0 0 5rem rgba(0,0,0,0.8);
+            border: 0.0625rem solid rgba(255,255,255,0.05);
+            object-fit: contain;
+            transform: scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #lightbox.active img {
+            transform: scale(1);
+        }
+
+        #lightbox-caption {
+            color: var(--bg-color);
+            margin-top: 2rem;
+            font-size: 1.3rem;
+            font-style: italic;
+            letter-spacing: 0.0625rem;
+            font-weight: 400;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.875rem;
+            right: 2.5rem;
+            color: #fff;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.625rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn svg {
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.0625rem;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 6.25rem;
+            height: 0.0625rem;
+            background: var(--accent-leaf);
+            opacity: 0.3;
+        }
+
+        /* Keyframes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(2.5rem); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-2.5rem); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Reusable Corner Floral Definition -->
+    <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="frame-corner" viewBox="0 0 100 100">
+            <!-- Stem branching out -->
+            <path d="M 30 30 Q 70 15 95 25" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5" />
+            <path d="M 30 30 Q 15 70 25 95" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5" />
+            
+            <!-- Leaves Right -->
+            <path d="M 45 22 Q 60 5 75 15 Q 60 30 45 22 Z" fill="var(--accent-leaf)" opacity="0.9"/>
+            <path d="M 70 21 Q 85 8 95 20 Q 80 32 70 21 Z" fill="var(--accent-gold)" opacity="0.7"/>
+            
+            <!-- Leaves Down -->
+            <path d="M 22 45 Q 5 60 15 75 Q 30 60 22 45 Z" fill="var(--accent-leaf)" opacity="0.9"/>
+            <path d="M 21 70 Q 8 85 20 95 Q 32 80 21 70 Z" fill="var(--accent-gold)" opacity="0.7"/>
+            
+            <!-- The Corner Rose -->
+            <g transform="translate(30, 30) scale(1.9)">
+                <path d="M0 12 C -12 12 -15 0 -5 -10 C -2 -14 2 -14 5 -10 C 15 0 12 12 0 12 Z" fill="var(--accent-rose)" opacity="0.4"/>
+                <path d="M0 8 C -8 8 -10 -2 -3 -7 C -1 -9 1 -9 3 -7 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.8"/>
+                <path d="M0 4 C -4 4 -5 -1 -1 -4 C 0 -5 0 -5 1 -4 C 5 -1 4 4 0 4 Z" fill="var(--accent-rose)"/>
+            </g>
+        </symbol>
+    </svg>
+
+    <!-- Ambient Background Floral Vines -->
+    <svg class="bg-floral bg-floral-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Stem -->
+        <path d="M 0 0 Q 50 150 150 200" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+        <path d="M 30 90 Q 80 180 180 180" fill="none" stroke="var(--accent-leaf)" stroke-width="1"/>
+        
+        <!-- Large Corner Rose -->
+        <g transform="translate(100, 100) scale(1.6)">
+            <path d="M0 20 C -20 20 -25 0 -8 -15 C -3 -22 3 -22 8 -15 C 25 0 20 20 0 20 Z" fill="var(--accent-rose)" opacity="0.3"/>
+            <path d="M0 14 C -14 14 -18 -2 -5 -10 C -2 -15 2 -15 5 -10 C 18 -2 14 14 0 14 Z" fill="var(--accent-rose)" opacity="0.6"/>
+            <path d="M0 8 C -8 8 -10 -2 -3 -6 C -1 -9 1 -9 3 -6 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.9"/>
+        </g>
+        
+        <!-- Small Bud -->
+        <g transform="translate(50, 150) scale(0.8) rotate(-30)">
+            <path d="M0 20 C -20 20 -25 0 -8 -15 C -3 -22 3 -22 8 -15 C 25 0 20 20 0 20 Z" fill="var(--accent-rose)" opacity="0.3"/>
+            <path d="M0 14 C -14 14 -18 -2 -5 -10 C -2 -15 2 -15 5 -10 C 18 -2 14 14 0 14 Z" fill="var(--accent-rose)" opacity="0.6"/>
+            <path d="M0 8 C -8 8 -10 -2 -3 -6 C -1 -9 1 -9 3 -6 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.9"/>
+        </g>
+        
+        <!-- Elegant Leaves -->
+        <path d="M 30 90 Q 10 70 20 50 Q 50 60 30 90 Z" fill="var(--accent-leaf)" opacity="0.5"/>
+        <path d="M 70 140 Q 50 160 70 190 Q 90 160 70 140 Z" fill="var(--accent-leaf)" opacity="0.6"/>
+        <path d="M 120 120 Q 150 100 170 130 Q 140 140 120 120 Z" fill="var(--accent-gold)" opacity="0.4"/>
+    </svg>
+
+    <svg class="bg-floral bg-floral-2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0 0 Q 50 150 150 200" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+        <path d="M 30 90 Q 80 180 180 180" fill="none" stroke="var(--accent-leaf)" stroke-width="1"/>
+        <g transform="translate(100, 100) scale(1.6)">
+            <path d="M0 20 C -20 20 -25 0 -8 -15 C -3 -22 3 -22 8 -15 C 25 0 20 20 0 20 Z" fill="var(--accent-rose)" opacity="0.3"/>
+            <path d="M0 14 C -14 14 -18 -2 -5 -10 C -2 -15 2 -15 5 -10 C 18 -2 14 14 0 14 Z" fill="var(--accent-rose)" opacity="0.6"/>
+            <path d="M0 8 C -8 8 -10 -2 -3 -6 C -1 -9 1 -9 3 -6 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.9"/>
+        </g>
+        <g transform="translate(50, 150) scale(0.8) rotate(-30)">
+            <path d="M0 20 C -20 20 -25 0 -8 -15 C -3 -22 3 -22 8 -15 C 25 0 20 20 0 20 Z" fill="var(--accent-rose)" opacity="0.3"/>
+            <path d="M0 14 C -14 14 -18 -2 -5 -10 C -2 -15 2 -15 5 -10 C 18 -2 14 14 0 14 Z" fill="var(--accent-rose)" opacity="0.6"/>
+            <path d="M0 8 C -8 8 -10 -2 -3 -6 C -1 -9 1 -9 3 -6 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.9"/>
+        </g>
+        <path d="M 30 90 Q 10 70 20 50 Q 50 60 30 90 Z" fill="var(--accent-leaf)" opacity="0.5"/>
+        <path d="M 70 140 Q 50 160 70 190 Q 90 160 70 140 Z" fill="var(--accent-leaf)" opacity="0.6"/>
+        <path d="M 120 120 Q 150 100 170 130 Q 140 140 120 120 Z" fill="var(--accent-gold)" opacity="0.4"/>
+    </svg>
+
+    <!-- Header Section -->
+    <header>
+        <!-- Profile Photo with Rose Wreath -->
+        <div class="profile-container">
+            <img src="profile.jpg" alt="Joyita Pal" class="profile-img" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI0Q0QTM4MyIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9InNlcmlmIiBmb250LXNpemU9IjQwIiBmaWxsPSIjRjhGOUY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj5KUDwvdGV4dD48L3N2Zz4='">
+            
+            <svg class="floral-wreath" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Thin wispy stems from the image -->
+                    <g id="wf-wisp">
+                        <path d="M0,0 Q15,-10 25,-25 M0,0 Q5,-15 10,-22" fill="none" stroke="#D6BCA6" stroke-width="0.8" stroke-linecap="round"/>
+                    </g>
+                    <!-- Base Leaves (Olive and Tan) -->
+                    <g id="wf-leaf-olive">
+                        <path d="M0,0 C-6,-8 -8,-20 0,-28 C8,-20 6,-8 0,0 Z" fill="#A1AA8A" opacity="0.9"/>
+                        <path d="M0,0 Q0,-12 0,-26" fill="none" stroke="#8A9473" stroke-width="0.5"/>
+                    </g>
+                    <g id="wf-leaf-tan">
+                        <path d="M0,0 C-6,-8 -8,-20 0,-28 C8,-20 6,-8 0,0 Z" fill="#C4A993" opacity="0.9"/>
+                        <path d="M0,0 Q0,-12 0,-26" fill="none" stroke="#A88B74" stroke-width="0.5"/>
+                    </g>
+                    
+                    <!-- The Pink Anemone Flower (with dark spiky center) -->
+                    <g id="wf-pink-flower">
+                        <!-- Soft overlapping petals -->
+                        <g fill="#FFC4C4" opacity="0.9">
+                            <path d="M0,0 C-12,-4 -20,-20 0,-25 C20,-20 12,-4 0,0 Z" transform="rotate(0)"/>
+                            <path d="M0,0 C-12,-4 -20,-20 0,-25 C20,-20 12,-4 0,0 Z" transform="rotate(72)"/>
+                            <path d="M0,0 C-12,-4 -20,-20 0,-25 C20,-20 12,-4 0,0 Z" transform="rotate(144)"/>
+                            <path d="M0,0 C-12,-4 -20,-20 0,-25 C20,-20 12,-4 0,0 Z" transform="rotate(216)"/>
+                            <path d="M0,0 C-12,-4 -20,-20 0,-25 C20,-20 12,-4 0,0 Z" transform="rotate(288)"/>
+                        </g>
+                        <!-- Inner shading/depth -->
+                        <g fill="#F09A9A" opacity="0.7">
+                            <path d="M0,0 C-6,-2 -10,-12 0,-16 C10,-12 6,-2 0,0 Z" transform="rotate(36)"/>
+                            <path d="M0,0 C-6,-2 -10,-12 0,-16 C10,-12 6,-2 0,0 Z" transform="rotate(108)"/>
+                            <path d="M0,0 C-6,-2 -10,-12 0,-16 C10,-12 6,-2 0,0 Z" transform="rotate(180)"/>
+                            <path d="M0,0 C-6,-2 -10,-12 0,-16 C10,-12 6,-2 0,0 Z" transform="rotate(252)"/>
+                            <path d="M0,0 C-6,-2 -10,-12 0,-16 C10,-12 6,-2 0,0 Z" transform="rotate(324)"/>
+                        </g>
+                        <!-- Dark Center (Stamens) -->
+                        <circle cx="0" cy="0" r="6" fill="none" stroke="#221111" stroke-width="2.5" stroke-dasharray="0.5 2"/>
+                        <circle cx="0" cy="0" r="3.5" fill="#221111"/>
+                    </g>
+                    
+                    <!-- The Tan/Brown Anemone Flower (Top right cluster) -->
+                    <g id="wf-tan-flower">
+                        <g fill="#D6B095" opacity="0.9">
+                            <path d="M0,0 C-10,-3 -16,-16 0,-20 C16,-16 10,-3 0,0 Z" transform="rotate(0)"/>
+                            <path d="M0,0 C-10,-3 -16,-16 0,-20 C16,-16 10,-3 0,0 Z" transform="rotate(72)"/>
+                            <path d="M0,0 C-10,-3 -16,-16 0,-20 C16,-16 10,-3 0,0 Z" transform="rotate(144)"/>
+                            <path d="M0,0 C-10,-3 -16,-16 0,-20 C16,-16 10,-3 0,0 Z" transform="rotate(216)"/>
+                            <path d="M0,0 C-10,-3 -16,-16 0,-20 C16,-16 10,-3 0,0 Z" transform="rotate(288)"/>
+                        </g>
+                        <circle cx="0" cy="0" r="4.5" fill="none" stroke="#332211" stroke-width="1.5" stroke-dasharray="0.5 2"/>
+                        <circle cx="0" cy="0" r="2.5" fill="#332211"/>
+                    </g>
+
+                    <!-- The Deep Red Layered Rose -->
+                    <g id="wf-red-rose">
+                        <circle cx="0" cy="0" r="16" fill="#C95B5B" />
+                        <path d="M-10,6 A 12 12 0 0 1 10,2 A 14 14 0 0 0 -10,6" fill="#9E3333" />
+                        <path d="M-4,-10 A 10 10 0 0 1 10,6 A 12 12 0 0 0 -4,-10" fill="#6B1919" />
+                        <path d="M6,-6 A 7 7 0 0 1 -6,4 A 9 9 0 0 0 6,-6" fill="#420707" />
+                        <path d="M-2,2 A 3 3 0 0 1 2,-1 A 4 4 0 0 0 -2,2" fill="#240202" />
+                        <!-- Edge highlights to simulate folds -->
+                        <path d="M-14,-2 C-18,-18 6,-22 12,-10 C6,-14 -10,-14 -14,-2 Z" fill="#E08B8B" />
+                        <path d="M10,-10 C22,2 18,18 2,14 C12,12 14,-2 10,-10 Z" fill="#E8A2A2" />
+                        <path d="M2,14 C-14,22 -22,6 -14,-2 C-16,10 -6,16 2,14 Z" fill="#E08B8B" />
+                    </g>
+
+                    <!-- Tiny Pink Bud -->
+                    <g id="wf-pink-bud">
+                        <path d="M0,0 C-5,-4 -8,-12 0,-15 C8,-12 5,-4 0,0 Z" fill="#FFC4C4"/>
+                        <circle cx="0" cy="-6" r="1.5" fill="#F09A9A"/>
+                    </g>
+                </defs>
+
+                <!-- Hand-drawn style overlapping rings -->
+                <circle cx="98" cy="102" r="84" fill="none" stroke="#D6BCA6" stroke-width="1.2"/>
+                <circle cx="103" cy="98" r="82" fill="none" stroke="#E0CFC2" stroke-width="0.8"/>
+                <circle cx="100" cy="100" r="86" fill="none" stroke="#D6BCA6" stroke-width="0.5"/>
+                <circle cx="96" cy="97" r="80" fill="none" stroke="#C4A993" stroke-width="0.8" opacity="0.6"/>
+
+                <!-- ================= TOP LEFT CLUSTER ================= -->
+                <!-- Vine base -->
+                <path d="M 15 50 Q 25 15 65 15" fill="none" stroke="#A88B74" stroke-width="1.5"/>
+                
+                <g transform="translate(45, 40)">
+                    <!-- Leaves pointing outwards -->
+                    <use href="#wf-leaf-tan" transform="translate(-15, -10) scale(0.9) rotate(-45)" />
+                    <use href="#wf-leaf-olive" transform="translate(-25, 10) scale(1) rotate(-80)" />
+                    <use href="#wf-leaf-tan" transform="translate(-15, 25) scale(0.8) rotate(-120)" />
+                    <use href="#wf-wisp" transform="translate(-10, -20) scale(1) rotate(-20)" />
+                    
+                    <use href="#wf-leaf-olive" transform="translate(15, -25) scale(0.9) rotate(25)" />
+                    <use href="#wf-leaf-tan" transform="translate(30, -15) scale(0.8) rotate(60)" />
+                    <use href="#wf-wisp" transform="translate(25, -20) scale(1.2) rotate(45)" />
+                    
+                    <use href="#wf-leaf-olive" transform="translate(20, 20) scale(0.7) rotate(140)" />
+                    
+                    <!-- Flowers -->
+                    <use href="#wf-tan-flower" transform="translate(18, -16) scale(0.8) rotate(15)" />
+                    <use href="#wf-pink-flower" transform="translate(-14, 12) scale(0.9) rotate(-10)" />
+                    <use href="#wf-pink-flower" transform="translate(5, -2) scale(1.2) rotate(20)" />
+                    
+                    <!-- Tiny buds and accents -->
+                    <use href="#wf-pink-bud" transform="translate(25, 15) scale(0.7) rotate(120)" />
+                    <use href="#wf-pink-bud" transform="translate(-28, -5) scale(0.6) rotate(-50)" />
+                </g>
+
+                <!-- ================= BOTTOM RIGHT CLUSTER ================= -->
+                <!-- Vine base -->
+                <path d="M 185 145 Q 180 185 145 185" fill="none" stroke="#A88B74" stroke-width="1.5"/>
+                
+                <g transform="translate(155, 150)">
+                    <!-- Leaves -->
+                    <use href="#wf-wisp" transform="translate(15, -25) scale(1) rotate(70)" />
+                    <use href="#wf-leaf-tan" transform="translate(15, -15) scale(0.9) rotate(50)" />
+                    <use href="#wf-leaf-olive" transform="translate(25, 5) scale(1) rotate(95)" />
+                    <use href="#wf-leaf-tan" transform="translate(15, 25) scale(0.8) rotate(130)" />
+                    <use href="#wf-leaf-olive" transform="translate(-10, 25) scale(0.9) rotate(165)" />
+                    <use href="#wf-wisp" transform="translate(-20, 20) scale(1) rotate(180)" />
+                    <use href="#wf-leaf-tan" transform="translate(-30, 15) scale(0.7) rotate(210)" />
+                    <use href="#wf-leaf-olive" transform="translate(-5, -20) scale(0.8) rotate(0)" />
+                    
+                    <!-- Flowers -->
+                    <!-- The big red rose -->
+                    <use href="#wf-red-rose" transform="translate(12, -2) scale(1.3) rotate(15)" />
+                    
+                    <!-- The pink flower to the left -->
+                    <use href="#wf-pink-flower" transform="translate(-12, 10) scale(0.95) rotate(-35)" />
+                    
+                    <!-- Small pink flower cluster bottom left -->
+                    <use href="#wf-pink-flower" transform="translate(-25, -2) scale(0.4) rotate(45)" />
+                    <use href="#wf-pink-flower" transform="translate(-38, 12) scale(0.5) rotate(-15)" />
+                    <use href="#wf-pink-flower" transform="translate(-20, 26) scale(0.35) rotate(80)" />
+                    
+                    <!-- Tiny buds -->
+                    <use href="#wf-pink-bud" transform="translate(-32, -8) scale(0.6) rotate(-40)" />
+                    <use href="#wf-pink-bud" transform="translate(2, 28) scale(0.6) rotate(150)" />
+                </g>
+            </svg>
+        </div>
+        
+        <h1>Joyita Pal</h1>
+        <div class="art-meta" style="margin-bottom: 0; margin-top: 0.625rem; justify-content: center;">
+            <span>Fine Art</span>
+            <span class="dot"></span>
+            <span>Oil Pastels</span>
+            <span class="dot"></span>
+            <span>Portfolios</span>
+        </div>
+        <p>A curated botanical exhibition showcasing the vibrant strokes, serene landscapes, and deeply rooted narratives of village life and natural beauty.</p>
+    </header>
+
+    <!-- Gallery Section -->
+    <main>
+        
+        <!-- Art Piece 1 -->
+        <section class="story-row">
+            <div class="story-art">
+                <div class="frame-container" onclick="openLightbox('art (1).jpeg', 'Mountain Serenity')">
+                    <!-- Added Floral Corners -->
+                    <svg class="frame-decor frame-decor-tl"><use href="#frame-corner" /></svg>
+                    <svg class="frame-decor frame-decor-br"><use href="#frame-corner" /></svg>
+                    
+                    <img src="art (1).jpeg" alt="Mountain Serenity" loading="lazy">
+                </div>
+            </div>
+            <div class="story-text">
+                <h2 class="art-title">Mountain Serenity</h2>
+                <div class="art-meta">
+                    <span>Oil Pastel on Paper</span>
+                    <span class="dot"></span>
+                    <span>Landscape</span>
+                </div>
+                
+                <!-- Elegant Rose Branch Divider -->
+                <svg class="floral-divider" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Center Rose -->
+                    <g transform="translate(50, 15)">
+                        <path d="M0 12 C -12 12 -15 0 -5 -10 C -2 -14 2 -14 5 -10 C 15 0 12 12 0 12 Z" fill="var(--accent-rose)" opacity="0.4"/>
+                        <path d="M0 8 C -8 8 -10 -2 -3 -7 C -1 -9 1 -9 3 -7 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.7"/>
+                        <path d="M0 4 C -4 4 -5 -1 -1 -4 C 0 -5 0 -5 1 -4 C 5 -1 4 4 0 4 Z" fill="var(--accent-rose)"/>
+                    </g>
+                    <!-- Left Stem & Leaves -->
+                    <path d="M 10 15 Q 30 5 40 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 25 10 Q 20 2 15 5 Q 18 10 25 10 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 35 13 Q 32 5 28 8 Q 30 14 35 13 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                    <!-- Right Stem & Leaves -->
+                    <path d="M 90 15 Q 70 25 60 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 75 20 Q 80 28 85 25 Q 82 20 75 20 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 65 17 Q 68 25 72 22 Q 70 16 65 17 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                </svg>
+
+                <p class="art-description">
+                    A vibrant exploration of high-altitude tranquility. This piece captures the crisp mountain air and the striking visual contrast between the lush, rolling green slopes and the fiery autumn trees standing guard by the rustic homestead. The dynamic strokes of pastel breathe life into the stillness of the peaks, inviting the viewer to step into a serene, untamed world.
+                </p>
+            </div>
+        </section>
+
+        <!-- Art Piece 2 -->
+        <section class="story-row">
+            <div class="story-art">
+                <div class="frame-container" onclick="openLightbox('art (2).jpg', 'Morning Routine')">
+                    <!-- Added Floral Corners -->
+                    <svg class="frame-decor frame-decor-tl"><use href="#frame-corner" /></svg>
+                    <svg class="frame-decor frame-decor-br"><use href="#frame-corner" /></svg>
+                    
+                    <img src="art (2).jpg" alt="Morning Routine" loading="lazy">
+                </div>
+            </div>
+            <div class="story-text">
+                <h2 class="art-title">Morning Routine</h2>
+                <div class="art-meta">
+                    <span>Oil Pastel on Paper</span>
+                    <span class="dot"></span>
+                    <span>Rural Life</span>
+                </div>
+                
+                <svg class="floral-divider" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(50, 15)">
+                        <path d="M0 12 C -12 12 -15 0 -5 -10 C -2 -14 2 -14 5 -10 C 15 0 12 12 0 12 Z" fill="var(--accent-rose)" opacity="0.4"/>
+                        <path d="M0 8 C -8 8 -10 -2 -3 -7 C -1 -9 1 -9 3 -7 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.7"/>
+                        <path d="M0 4 C -4 4 -5 -1 -1 -4 C 0 -5 0 -5 1 -4 C 5 -1 4 4 0 4 Z" fill="var(--accent-rose)"/>
+                    </g>
+                    <path d="M 10 15 Q 30 5 40 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 25 10 Q 20 2 15 5 Q 18 10 25 10 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 35 13 Q 32 5 28 8 Q 30 14 35 13 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                    <path d="M 90 15 Q 70 25 60 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 75 20 Q 80 28 85 25 Q 82 20 75 20 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 65 17 Q 68 25 72 22 Q 70 16 65 17 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                </svg>
+
+                <p class="art-description">
+                    A tender glimpse into the quiet beauty of rural life. A woman tends to her daily chores, scattering feed for the chickens as the morning sun casts a warm, golden glow over the village courtyard. The detailed textures of the thatched roof and the vibrant pinks of her saree celebrate the harmony and enduring spirit of daily existence.
+                </p>
+            </div>
+        </section>
+
+        <!-- Art Piece 3 -->
+        <section class="story-row">
+            <div class="story-art">
+                <div class="frame-container" onclick="openLightbox('art (3).jpeg', 'The Golden Harvest')">
+                    <!-- Added Floral Corners -->
+                    <svg class="frame-decor frame-decor-tl"><use href="#frame-corner" /></svg>
+                    <svg class="frame-decor frame-decor-br"><use href="#frame-corner" /></svg>
+                    
+                    <img src="art (3).jpeg" alt="The Golden Harvest" loading="lazy">
+                </div>
+            </div>
+            <div class="story-text">
+                <h2 class="art-title">The Golden Harvest</h2>
+                <div class="art-meta">
+                    <span>Oil Pastel on Paper</span>
+                    <span class="dot"></span>
+                    <span>Rural Life</span>
+                </div>
+
+                <svg class="floral-divider" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(50, 15)">
+                        <path d="M0 12 C -12 12 -15 0 -5 -10 C -2 -14 2 -14 5 -10 C 15 0 12 12 0 12 Z" fill="var(--accent-rose)" opacity="0.4"/>
+                        <path d="M0 8 C -8 8 -10 -2 -3 -7 C -1 -9 1 -9 3 -7 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.7"/>
+                        <path d="M0 4 C -4 4 -5 -1 -1 -4 C 0 -5 0 -5 1 -4 C 5 -1 4 4 0 4 Z" fill="var(--accent-rose)"/>
+                    </g>
+                    <path d="M 10 15 Q 30 5 40 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 25 10 Q 20 2 15 5 Q 18 10 25 10 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 35 13 Q 32 5 28 8 Q 30 14 35 13 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                    <path d="M 90 15 Q 70 25 60 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 75 20 Q 80 28 85 25 Q 82 20 75 20 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 65 17 Q 68 25 72 22 Q 70 16 65 17 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                </svg>
+
+                <p class="art-description">
+                    Celebrating the bounty of the earth. The rich yellows and greens highlight the profound connection between nature and the people who nurture it. With careful strokes, Joyita emphasizes the golden hues of the harvested crops resting in the sun, reflecting a deep appreciation for the simple, enduring rhythms of the harvest season.
+                </p>
+            </div>
+        </section>
+
+        <!-- Art Piece 4 -->
+        <section class="story-row">
+            <div class="story-art">
+                <div class="frame-container" onclick="openLightbox('art (4).jpeg', 'By the Riverbank')">
+                    <!-- Added Floral Corners -->
+                    <svg class="frame-decor frame-decor-tl"><use href="#frame-corner" /></svg>
+                    <svg class="frame-decor frame-decor-br"><use href="#frame-corner" /></svg>
+                    
+                    <img src="art (4).jpeg" alt="By the Riverbank" loading="lazy">
+                </div>
+            </div>
+            <div class="story-text">
+                <h2 class="art-title">By the Riverbank</h2>
+                <div class="art-meta">
+                    <span>Oil Pastel on Paper</span>
+                    <span class="dot"></span>
+                    <span>Nature Series</span>
+                </div>
+
+                <svg class="floral-divider" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(50, 15)">
+                        <path d="M0 12 C -12 12 -15 0 -5 -10 C -2 -14 2 -14 5 -10 C 15 0 12 12 0 12 Z" fill="var(--accent-rose)" opacity="0.4"/>
+                        <path d="M0 8 C -8 8 -10 -2 -3 -7 C -1 -9 1 -9 3 -7 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.7"/>
+                        <path d="M0 4 C -4 4 -5 -1 -1 -4 C 0 -5 0 -5 1 -4 C 5 -1 4 4 0 4 Z" fill="var(--accent-rose)"/>
+                    </g>
+                    <path d="M 10 15 Q 30 5 40 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 25 10 Q 20 2 15 5 Q 18 10 25 10 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 35 13 Q 32 5 28 8 Q 30 14 35 13 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                    <path d="M 90 15 Q 70 25 60 15" fill="none" stroke="var(--accent-leaf)" stroke-width="1.5"/>
+                    <path d="M 75 20 Q 80 28 85 25 Q 82 20 75 20 Z" fill="var(--accent-leaf)" opacity="0.7"/>
+                    <path d="M 65 17 Q 68 25 72 22 Q 70 16 65 17 Z" fill="var(--accent-gold)" opacity="0.6"/>
+                </svg>
+
+                <p class="art-description">
+                    Grace and daily rhythm converge by the water's edge. This artwork portrays a woman returning from the gentle river, balancing a traditional terracotta pot. The playful ducks gliding peacefully in the foreground and the vibrant blue sky create a harmonious snapshot of pastoral life, blending human activity seamlessly into the natural landscape.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Fullscreen Lightbox -->
+    <div id="lightbox">
+        <button class="close-btn" onclick="closeLightbox()" aria-label="Close Lightbox">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <img id="lightbox-img" src="" alt="Expanded Artwork">
+        <div id="lightbox-caption" class="serif"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Joyita Pal Art. All rights reserved.</p>
+        <div style="margin-top: 1rem; display: flex; justify-content: center;">
+            <!-- Small Footer Rose Accent -->
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(12, 12) scale(0.8)">
+                    <path d="M0 12 C -12 12 -15 0 -5 -10 C -2 -14 2 -14 5 -10 C 15 0 12 12 0 12 Z" fill="var(--accent-rose)" opacity="0.4"/>
+                    <path d="M0 8 C -8 8 -10 -2 -3 -7 C -1 -9 1 -9 3 -7 C 10 -2 8 8 0 8 Z" fill="var(--accent-rose)" opacity="0.8"/>
+                    <path d="M0 4 C -4 4 -5 -1 -1 -4 C 0 -5 0 -5 1 -4 C 5 -1 4 4 0 4 Z" fill="var(--accent-rose)"/>
+                </g>
+            </svg>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic -->
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        function openLightbox(imageSrc, title) {
+            lightboxImg.src = imageSrc;
+            lightboxCaption.textContent = title;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; 
+        }
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target !== lightboxImg && e.target !== lightboxCaption) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
